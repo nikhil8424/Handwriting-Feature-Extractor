@@ -4,10 +4,16 @@ A simple tool to extract measurable handwriting features from images.
 """
 
 import streamlit as st
-import cv2
 import numpy as np
 from PIL import Image
 import io
+
+# Try importing cv2 with fallback
+try:
+    import cv2
+except ImportError:
+    st.error("❌ OpenCV (cv2) is not installed. Please install it using: pip install opencv-python-headless")
+    st.stop()
 
 from ocr import process_image, validate_image
 from feature_extractor import extract_all_features
