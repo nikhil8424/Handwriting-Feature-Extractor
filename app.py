@@ -7,12 +7,17 @@ import streamlit as st
 import numpy as np
 from PIL import Image
 import io
+import os
 
 # Try importing cv2 with fallback
 try:
+    # Set environment variable to avoid GL dependencies
+    os.environ['OPENCV_IO_ENABLE_OPENEXR'] = '1'
     import cv2
-except ImportError:
-    st.error("❌ OpenCV (cv2) is not installed. Please install it using: pip install opencv-python-headless")
+except ImportError as e:
+    st.error(f"❌ OpenCV (cv2) import failed: {str(e)}")
+    st.error("This may be due to missing system libraries. The app requires OpenCV for image processing.")
+    st.info("Please check the deployment logs and ensure system dependencies are installed.")
     st.stop()
 
 from ocr import process_image, validate_image
